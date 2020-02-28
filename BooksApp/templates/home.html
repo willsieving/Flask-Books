@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+    <header>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    </header>
+    <body>
+        <main role="main" class="bg-left">
+            <article class="media content-section">
+                <table class="media-body">
+                    <tr class="row bg-books">
+                        {% for review in reviews.items %}
+                            <th class="bg-space clickable-row hover-image" data-href="{{ url_for('book_route', book_id=review.id) }}">
+                                <img class="article-img" src="{{ url_for('static', filename='cover_pics/' + review.image_file) }}">
+                                <article class="media-section ">
+                                    <table class="media-body">
+                                        <tr class="row ml-4">
+                                            {% for i in range(review.rating) %}
+                                                <th>
+                                                    <img class="mr-2 mt-1" src="{{ url_for('static', filename='star.png') }}">
+                                                </th>
+                                            {% endfor %}
+                                        </tr>
+                                    </table>
+                                </article>
+                                <div class="sm-1 bg-space wrap-test">{{ review.title }} by {{ review.author }}</div>
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </article>
+        </main>
+    <script>
+        jQuery(document).ready(function($) {
+        $(".hover-image").hover(function() {
+            $(this).css("background-color", "#cfb58f");
+            }, function(){
+            $(this).css("background-color", "#fff2de");
+        });
+    });
+        jQuery(document).ready(function($) {
+        $(".clickable-row").click(function(){
+            window.location = $(this).data("href")
+        });
+    });
+    </script>
+    </body>
+
+{% endblock content %}

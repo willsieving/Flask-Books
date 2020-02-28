@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content %}
+<header>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</header>
+<body>
+    <div class="content-section bg-space padding-top bg-left container">
+        <div class="media">
+            <div class="media-left">
+                <img src="{{ url_for('static', filename='cover_pics/' + book.image_file) }}" class="media-object clickable-image" data-href="{{ book.link }}">
+            </div>
+            <div class="media-body bg-content-left">
+                <h4 class="media-heading space-star">
+                    {{ book.title }} by {{ book.author }}
+                </h4>
+                <article class="media-section">
+                    <table class="media-body">
+                        <tr class="row space-star">
+                            {% for i in range(book.rating) %}
+                                <th>
+                                    <img src="{{ url_for('static', filename='star.png') }}">
+                                </th>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </article>
+                <hr>
+                <p class="mt-4 space-star">
+                    {{ book.content }}
+                </p>
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_book', book_id=book.id) }}">Update</a>
+                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST">
+                    <input class="btn btn-danger mt-3" type="submit" value="Delete">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <script>
+        jQuery(document).ready(function($) {
+        $(".clickable-image").click(function(){
+            window.location = $(this).data("href")
+        });
+    });
+        jQuery(document).ready(function($) {
+        $(".hover-image").hover(function() {
+            $(this).css("background-color", "#cfb58f");
+            }, function(){
+            $(this).css("background-color", "#fff2de");
+        });
+    });
+    </script>
+</body>
+{% endblock content %}
